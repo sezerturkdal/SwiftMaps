@@ -28,6 +28,8 @@ class ViewController: UIViewController , MKMapViewDelegate, CLLocationManagerDel
         locationManager.delegate=self
         mapView.delegate = self
         
+        getAllMarks()
+        
         locationManager.desiredAccuracy=kCLLocationAccuracyBestForNavigation
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
@@ -79,6 +81,50 @@ class ViewController: UIViewController , MKMapViewDelegate, CLLocationManagerDel
         }catch{
             print("Failed")
         }
+    }
+    
+    func getAllMarks(){
+        let appDelegate=UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+
+        let fetchRequest=NSFetchRequest<NSFetchRequestResult>(entityName: "Places")
+        fetchRequest.returnsObjectsAsFaults=false
+        
+        do{
+            let results = try  context.fetch(fetchRequest)
+                for result in results as! [NSManagedObject]{
+                    
+                    var Places = PlacesModel()
+                    
+                    if let title = result.value(forKey: "title") as? String{
+                        Places.name=title
+                    }
+                    if let comment = result.value(forKey: "comment") as? String{
+                        Places.comment=comment
+                    }
+                    if let longitude = result.value(forKey: "longitude") as? Double{
+                        Places.longitude=longitude
+                    }
+                    if let latidute = result.value(forKey: "latitude") as? Double{
+                        Places.latidute=latidute
+                    }
+                    if let id = result.value(forKey: "id") as? UUID{
+                        Places.id=id
+                    }
+                    
+                    let lc = CLLocation.init(latitude: Places.latidute ?? 0, longitude: Places.longitude ?? 0)
+                    
+                    let annotation=MKPointAnnotation()
+                    annotation.coordinate=lc.coordinate
+                    annotation.title=Places.name
+                    annotation.subtitle=Places.comment
+                    self.mapView.addAnnotation(annotation)
+                }
+               }
+               catch{
+                   print("Error when fetching")
+               }
+        
     }
     
 
