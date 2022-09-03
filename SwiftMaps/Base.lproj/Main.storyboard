@@ -17,25 +17,43 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="xjO-k6-UBE">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <rect key="frame" x="0.0" y="294" width="414" height="568"/>
                             </mapView>
+                            <textField opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="TqL-K4-vXq">
+                                <rect key="frame" x="80" y="116" width="255" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Descriptiom" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ygh-Wl-7IZ">
+                                <rect key="frame" x="80" y="179" width="255" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="xjO-k6-UBE" secondAttribute="trailing" id="P5I-Hq-Qbo"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="xjO-k6-UBE" secondAttribute="bottom" id="SHE-zv-Htw"/>
-                            <constraint firstItem="xjO-k6-UBE" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="vNi-4g-jwY"/>
-                            <constraint firstItem="xjO-k6-UBE" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="vcX-2E-eGf"/>
+                            <constraint firstItem="xjO-k6-UBE" firstAttribute="top" secondItem="ygh-Wl-7IZ" secondAttribute="bottom" constant="81" id="6yh-FE-413"/>
+                            <constraint firstItem="TqL-K4-vXq" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Ffd-og-88B"/>
+                            <constraint firstItem="TqL-K4-vXq" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="80" id="Gpy-wh-4It"/>
+                            <constraint firstItem="xjO-k6-UBE" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Gy6-cy-sYR"/>
+                            <constraint firstItem="ygh-Wl-7IZ" firstAttribute="top" secondItem="TqL-K4-vXq" secondAttribute="bottom" constant="29" id="MGC-bA-e7D"/>
+                            <constraint firstItem="TqL-K4-vXq" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="72" id="R1Z-WV-1Tf"/>
+                            <constraint firstItem="ygh-Wl-7IZ" firstAttribute="centerX" secondItem="xjO-k6-UBE" secondAttribute="centerX" id="iLo-Kt-uLM"/>
+                            <constraint firstItem="TqL-K4-vXq" firstAttribute="leading" secondItem="ygh-Wl-7IZ" secondAttribute="leading" id="n4a-9i-skv"/>
+                            <constraint firstItem="TqL-K4-vXq" firstAttribute="trailing" secondItem="ygh-Wl-7IZ" secondAttribute="trailing" id="qJB-Ri-aMQ"/>
+                            <constraint firstItem="xjO-k6-UBE" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="ycj-Bx-XVW"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="mapView" destination="xjO-k6-UBE" id="BaO-C3-hY4"/>
+                        <outlet property="txtDescripton" destination="ygh-Wl-7IZ" id="qgQ-cd-w1i"/>
+                        <outlet property="txtName" destination="TqL-K4-vXq" id="8sx-58-u6f"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="35" y="68"/>
+            <point key="canvasLocation" x="34.782608695652179" y="67.633928571428569"/>
         </scene>
     </scenes>
     <resources>
