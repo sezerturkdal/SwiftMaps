@@ -68,6 +68,14 @@ class ViewController: UIViewController , MKMapViewDelegate, CLLocationManagerDel
         let appDelegate=UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
         
+        if (txtName.text ?? "").isEmpty || (txtDescripton.text ?? "").isEmpty || chosenLatitude==0 || chosenLongitude==0{
+            let alert = UIAlertController(title: "Warning", message: "Fill all blanks!", preferredStyle: UIAlertController.Style.alert)
+            
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+            return
+        }
+        
         let newPlace=NSEntityDescription.insertNewObject(forEntityName: "Places", into: context)
         newPlace.setValue(txtName.text, forKey: "title")
         newPlace.setValue(txtDescripton.text, forKey: "comment")
