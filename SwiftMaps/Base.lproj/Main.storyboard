@@ -61,6 +61,7 @@
                     </view>
                     <connections>
                         <outlet property="mapView" destination="xjO-k6-UBE" id="BaO-C3-hY4"/>
+                        <outlet property="saveButton" destination="K1g-jz-mB8" id="zTE-Ob-b7v"/>
                         <outlet property="txtDescripton" destination="ygh-Wl-7IZ" id="qgQ-cd-w1i"/>
                         <outlet property="txtName" destination="TqL-K4-vXq" id="8sx-58-u6f"/>
                     </connections>

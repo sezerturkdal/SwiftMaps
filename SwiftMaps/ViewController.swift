@@ -12,6 +12,7 @@ import CoreData
 
 class ViewController: UIViewController , MKMapViewDelegate, CLLocationManagerDelegate{
 
+    @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var txtName: UITextField!
     @IBOutlet weak var txtDescripton: UITextField!
@@ -20,6 +21,7 @@ class ViewController: UIViewController , MKMapViewDelegate, CLLocationManagerDel
     var chosenLongitude=Double()
     
     var locationManager=CLLocationManager()
+    var viewMode = true
     
     
     override func viewDidLoad() {
@@ -28,6 +30,7 @@ class ViewController: UIViewController , MKMapViewDelegate, CLLocationManagerDel
         locationManager.delegate=self
         mapView.delegate = self
         
+        setViewMode(vm: viewMode)
         getAllMarks()
         
         locationManager.desiredAccuracy=kCLLocationAccuracyBestForNavigation
@@ -65,6 +68,12 @@ class ViewController: UIViewController , MKMapViewDelegate, CLLocationManagerDel
         // NOTE: locations[0] brings user's last location
     }
     @IBAction func btnSaveClicked(_ sender: Any) {
+        
+        if(viewMode==true){
+            setViewMode(vm: false)
+            return
+        }
+        
         let appDelegate=UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
         
@@ -86,6 +95,11 @@ class ViewController: UIViewController , MKMapViewDelegate, CLLocationManagerDel
         do{
             try context.save()
             print("Success")
+            
+            txtName.text?.removeAll()
+            txtDescripton.text?.removeAll()
+            setViewMode(vm: true)
+            getAllMarks()
         }catch{
             print("Failed")
         }
@@ -132,7 +146,20 @@ class ViewController: UIViewController , MKMapViewDelegate, CLLocationManagerDel
                catch{
                    print("Error when fetching")
                }
-        
+    }
+    func setViewMode(vm:Bool){
+        txtName.isHidden=vm
+        txtDescripton.isHidden=vm
+        if(vm){
+            saveButton.setTitle("Add new place", for: .normal)
+        }else{
+            saveButton.setTitle("Save", for: .normal)
+        }
+        viewMode = vm
+    }
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        setViewMode(vm: true) // Cancel save new place
     }
     
 
