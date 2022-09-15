@@ -155,6 +155,19 @@ class ViewController: UIViewController , MKMapViewDelegate, CLLocationManagerDel
         }else{
             saveButton.setTitle("Save", for: .normal)
         }
+        
+        for constraint in self.view.constraints {
+            if constraint.identifier == "mapViewDefaultTop" {
+                if vm==false{
+                    constraint.constant = 200
+                }else{
+                    constraint.constant = 0
+                }
+            }
+        }
+        UIView.animate(withDuration: 0.5) {
+            self.view.layoutIfNeeded()
+        }
         viewMode = vm
     }
     
