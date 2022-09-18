@@ -22,6 +22,7 @@ class ViewController: UIViewController , MKMapViewDelegate, CLLocationManagerDel
     
     var locationManager=CLLocationManager()
     var viewMode = true
+    var selectedPin=MKAnnotationView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -207,6 +208,7 @@ class ViewController: UIViewController , MKMapViewDelegate, CLLocationManagerDel
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        selectedPin=view
         setViewMode(vm: true) // Cancel save new place
     }
     
@@ -228,6 +230,30 @@ class ViewController: UIViewController , MKMapViewDelegate, CLLocationManagerDel
             pinView?.annotation=annotation
         }
         return pinView
+    }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        let lgt = (selectedPin.annotation?.coordinate.longitude)!
+        let ltt = (selectedPin.annotation?.coordinate.latitude)!
+        
+        let requestLocation = CLLocation(latitude: ltt, longitude: lgt)
+        CLGeocoder().reverseGeocodeLocation(requestLocation) { placeMarks , error in
+            // closure  - callback func
+            if let placeMark = placeMarks{
+                if(placeMark.count>0){
+                    let newPlacemark = MKPlacemark(placemark: placeMark[0])
+                    let item = MKMapItem(placemark: newPlacemark)
+                    item.name = self.selectedPin.annotation?.title ?? ""
+                    
+                    let launchOptions = [MKLaunchOptionsDirectionsModeKey:MKLaunchOptionsDirectionsModeDriving]
+                    item.openInMaps(launchOptions: launchOptions)
+                }
+            }
+           
+        }
+        
+        
+         
     }
     
 
