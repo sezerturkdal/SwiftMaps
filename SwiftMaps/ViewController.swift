@@ -23,7 +23,6 @@ class ViewController: UIViewController , MKMapViewDelegate, CLLocationManagerDel
     var locationManager=CLLocationManager()
     var viewMode = true
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -61,10 +60,11 @@ class ViewController: UIViewController , MKMapViewDelegate, CLLocationManagerDel
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location = CLLocationCoordinate2D(latitude: locations[0].coordinate.latitude, longitude: locations[0].coordinate.longitude)
         
+        /* Getting user's location
         let span=MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
         let region=MKCoordinateRegion(center:location,span:span)
         mapView.setRegion(region, animated: true)
-        
+        */
         // NOTE: locations[0] brings user's last location
     }
     @IBAction func btnSaveClicked(_ sender: Any) {
@@ -113,6 +113,11 @@ class ViewController: UIViewController , MKMapViewDelegate, CLLocationManagerDel
         fetchRequest.returnsObjectsAsFaults=false
         
         do{
+            var sumLongitudes=Double()
+            sumLongitudes=0
+            var sumLatidutes=Double()
+            sumLatidutes=0
+            var listOfPlaces=[PlacesModel]()
             let results = try  context.fetch(fetchRequest)
                 for result in results as! [NSManagedObject]{
                     
@@ -126,9 +131,11 @@ class ViewController: UIViewController , MKMapViewDelegate, CLLocationManagerDel
                     }
                     if let longitude = result.value(forKey: "longitude") as? Double{
                         Places.longitude=longitude
+                        sumLongitudes=sumLongitudes+longitude
                     }
                     if let latidute = result.value(forKey: "latitude") as? Double{
                         Places.latidute=latidute
+                        sumLatidutes=sumLatidutes+latidute
                     }
                     if let id = result.value(forKey: "id") as? UUID{
                         Places.id=id
@@ -141,7 +148,35 @@ class ViewController: UIViewController , MKMapViewDelegate, CLLocationManagerDel
                     annotation.title=Places.name
                     annotation.subtitle=Places.comment
                     self.mapView.addAnnotation(annotation)
+                    
+                    listOfPlaces.append(Places)
                 }
+              // SET SCALE
+                    let maxLatitude = listOfPlaces.map { $0.latidute ?? 0 }.max()
+                    let maxLongitude = listOfPlaces.map { $0.longitude ?? 0 }.max()
+                    let minLatitude = listOfPlaces.map { $0.latidute ?? 0 }.min()
+                    let minLongitude = listOfPlaces.map { $0.longitude ?? 0 }.min()
+           
+                    let MAP_PADDING=0.005
+                    let MINIMUM_VISIBLE_LATITUDE = 2.0
+            
+                    let ltt = (Double(minLatitude ?? 0) + Double(maxLatitude ?? 0)) / 2;
+                    let lng = (Double(minLongitude ?? 0) + Double(maxLongitude ?? 0)) / 2;
+
+                    var latitudeDelta = (Double(maxLatitude ?? 0) + Double(minLatitude ?? 0)) * MAP_PADDING;
+
+                    latitudeDelta = (latitudeDelta < MINIMUM_VISIBLE_LATITUDE)
+                        ? MINIMUM_VISIBLE_LATITUDE
+                        : latitudeDelta;
+
+                    let longitudeDelta = (Double(maxLongitude ?? 0) + Double(minLongitude ?? 0)) * MAP_PADDING;
+            
+                    locationManager.stopUpdatingLocation()
+            
+                    let location = CLLocationCoordinate2D(latitude: ltt, longitude: lng)
+                    let span=MKCoordinateSpan(latitudeDelta: latitudeDelta, longitudeDelta: longitudeDelta)
+                    let region=MKCoordinateRegion(center:location,span:span)
+                    mapView.setRegion(region, animated: true)
                }
                catch{
                    print("Error when fetching")
@@ -174,6 +209,7 @@ class ViewController: UIViewController , MKMapViewDelegate, CLLocationManagerDel
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         setViewMode(vm: true) // Cancel save new place
     }
+    
     
 
 }
