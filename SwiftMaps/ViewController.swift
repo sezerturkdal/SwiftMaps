@@ -16,6 +16,7 @@ class ViewController: UIViewController , MKMapViewDelegate, CLLocationManagerDel
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var txtName: UITextField!
     @IBOutlet weak var txtDescripton: UITextField!
+    @IBOutlet weak var btnSave: UIButton!
     
     var chosenLatitude=Double()
     var chosenLongitude=Double()
@@ -40,6 +41,15 @@ class ViewController: UIViewController , MKMapViewDelegate, CLLocationManagerDel
         let gestureRecognizer=UILongPressGestureRecognizer(target: self, action: #selector(chooseLocation(gestureRecognizer:)))
         gestureRecognizer.minimumPressDuration=2
         mapView.addGestureRecognizer(gestureRecognizer)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        let userInferfaceStyle = traitCollection.userInterfaceStyle
+        if userInferfaceStyle == .dark{
+            btnSave.tintColor=UIColor.white
+        }else{
+            btnSave.tintColor=UIColor.blue
+        }
     }
      
     @objc func chooseLocation(gestureRecognizer:UILongPressGestureRecognizer){

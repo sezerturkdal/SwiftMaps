@@ -63,6 +63,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="btnSave" destination="K1g-jz-mB8" id="nX2-dz-90Q"/>
                         <outlet property="mapView" destination="xjO-k6-UBE" id="BaO-C3-hY4"/>
                         <outlet property="saveButton" destination="K1g-jz-mB8" id="zTE-Ob-b7v"/>
                         <outlet property="txtDescripton" destination="ygh-Wl-7IZ" id="qgQ-cd-w1i"/>
