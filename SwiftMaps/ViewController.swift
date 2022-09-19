@@ -28,6 +28,8 @@ class ViewController: UIViewController , MKMapViewDelegate, CLLocationManagerDel
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        overrideUserInterfaceStyle = .light // use light mode
+        
         locationManager.delegate=self
         mapView.delegate = self
         
@@ -43,7 +45,7 @@ class ViewController: UIViewController , MKMapViewDelegate, CLLocationManagerDel
         mapView.addGestureRecognizer(gestureRecognizer)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         let userInferfaceStyle = traitCollection.userInterfaceStyle
         if userInferfaceStyle == .dark{
             btnSave.tintColor=UIColor.white
